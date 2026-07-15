@@ -1,14 +1,14 @@
 import { apiClient } from "../lib/axios"
-import type { UserReq, UserRes } from "../types/UserTypes"
+import { type Response, type UserReq, type UserRes } from "../types/UserTypes"
 
 export const userServices = {
-    createUser: async (): Promise<UserReq> => {
-        const response = await apiClient.post<UserReq>('/user');
+    getUsers: async (): Promise<Response<UserRes[]>> => {
+        const response = await apiClient.get<Response<UserRes[]>>('api/User');
         return response.data;
     },
-
-    getUser: async (): Promise<UserRes> => {
-        const response = await apiClient.get<UserRes>('/user');
+    
+    createUser: async (): Promise<UserReq> => {
+        const response = await apiClient.post<UserReq>('api/User');
         return response.data;
-    }
+    },
 }
