@@ -20,9 +20,8 @@ export default function HomePage ({ data }: HomePageProps) {
     return (
     <>
         <h1>{data.name}, is {age} years old</h1>
-        <Button handleClick={handlePlus} name="Plus"/>
-        <p>seperator</p>
         <Button handleClick={handleMinus} name="Minus"/>
+        <Button handleClick={handlePlus} name="Plus"/>
     </>
     )
 }
