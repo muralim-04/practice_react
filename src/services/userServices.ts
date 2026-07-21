@@ -1,14 +1,18 @@
 import { apiClient } from "../lib/axios"
-import { type Response, type UserReq, type UserRes } from "../types/UserTypes"
+import { type UserReq, type UserRes } from "../types/UserTypes"
 
 export const userServices = {
-    getUsers: async (): Promise<Response<UserRes[]>> => {
-        const response = await apiClient.get<Response<UserRes[]>>('api/User');
+    getUsers: async (): Promise<UserRes[]> => {
+        const response = await apiClient.get<UserRes[]>('api/User/getAllusers');
         return response.data;
     },
     
-    createUser: async (): Promise<UserReq> => {
-        const response = await apiClient.post<UserReq>('api/User');
+    createUser: async (userData: UserReq): Promise<UserRes> => {
+        const response = await apiClient.post<UserRes>('api/User/createUser', userData);
         return response.data;
+    },
+
+    deleteUser: async (id: number): Promise<void> => {
+        await apiClient.delete(`api/User/deleteUser/${id}`);
     },
 }

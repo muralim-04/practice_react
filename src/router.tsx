@@ -1,15 +1,10 @@
 import { createBrowserRouter } from 'react-router-dom';
-import RootLayout from './components/RootLayout';
+import RootLayout from './layout/RootLayout';
 import HomePage from './features/home/HomePage';
 import UserPage from './features/user/UserPage';
-import type { Data } from './types/DefaultData';
 import Register from './features/auth/RegisterPage';
 import LogIn from './features/auth/LogInPage';
 
-const mockDataInstance: Data = {
-    name: "John",
-    age: 22
-};
 
 export const router = createBrowserRouter([
   {
@@ -18,7 +13,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: '', 
-        element: <HomePage data={mockDataInstance}/>,
+        element: <HomePage />,
         
       },
       {

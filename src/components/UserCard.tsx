@@ -1,13 +1,14 @@
 import type { UserRes } from "../types/UserTypes";
 import Button from "./Button";
+import { userServices } from "../services/userServices";
 
 interface UserCardProps {
   user: UserRes;
 }
 
 export default function UserCard ({user}: UserCardProps) {
-    function handleDelete() {
-        console.log("rizzz")
+    async function handleDelete() {
+        await userServices.deleteUser(user.id);
     }
     return (
         <div>

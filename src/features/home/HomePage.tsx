@@ -1,25 +1,21 @@
-import { useState } from "react"
-import type { Data } from "../../types/DefaultData"
 import Button from "../../components/Button";
+import { useDefaultStore } from "../../stores/defaultStore";
 
-interface HomePageProps {
-    data: Data
-}
 
-export default function HomePage ({ data }: HomePageProps) {
-    const [age, setAge] = useState(data.age);
+export default function HomePage () {
+    const {age, name, increment, decrement} = useDefaultStore((state) => state)
     
     function handlePlus () {
-        setAge(age + 1);
+        increment();
     }
 
     function handleMinus () {
-        setAge(age - 1);
+        decrement();
     }
 
     return (
     <>
-        <h1>{data.name}, is {age} years old</h1>
+        <h1>{name}, is {age} years old</h1>
         <Button handleClick={handleMinus} name="Minus"/>
         <Button handleClick={handlePlus} name="Plus"/>
     </>

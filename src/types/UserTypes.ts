@@ -8,8 +8,3 @@ export interface UserReq {
     password: string
     email: string
 }
-export interface Response<T> {
-    data: T
-    success: string
-    message: string
-}
