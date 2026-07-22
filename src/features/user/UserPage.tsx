@@ -1,108 +1,98 @@
-import { useEffect, useState, type ChangeEvent, type FormEvent } from 'react';
-import { AxiosError } from 'axios';
-import { userServices } from '../../services/userServices';
-import type { UserReq, UserRes } from '../../types/UserTypes';
-import type { ProblemDetails } from '../../types/ProblemDetails';
+import { useState, type SubmitEvent } from 'react';
 import UserCard from '../../components/UserCard';
+import { useSuspenseQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { userServices } from '../../services/userServices';
 
 export default function UserPage() {
-  const [users, setUsers] = useState<UserRes[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [formData, setFormData] = useState<UserReq>({
+  // queryClient for Mutations
+  const queryClient = useQueryClient();
+  // form to create user
+  const [userForm, setUserForm] = useState({
     name: '',
     email: '',
-    password: '',
+    password: ''
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formError, setFormError] = useState<string | null>(null);
+  // initial request to backend to fetch users
+  const { data: users } = useSuspenseQuery({
+    queryKey: ['getUsers'],
+    queryFn: userServices.getUsers,
+  });
+  // updating the list after adding a new user
+  const createUserMutation = useMutation({
+    mutationFn: userServices.createUser,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['getUsers'] });
+      setUserForm({ name: '', email: '', password: '' });
+    },
+  });
 
-  useEffect(() => {
-    async function fetchUsers() {
-      try {
-        const response = await userServices.getUsers();
-        setUsers(response);
-      } catch (error) {
-        console.error('Failed to fetch users:', error);
-      } finally {
-        setLoading(false);
-      }
-    }
 
-    fetchUsers();
-  }, []);
+  function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
+    event.preventDefault();
+    createUserMutation.mutate(userForm);
+  }
 
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setUserForm(prev => ({ ...prev, [name]: value }));
   };
-
-  const handleCreateUser = async (e: FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setFormError(null);
-
-    try {
-      const newUser = await userServices.createUser(formData);
-      setUsers((prevUsers) => [...prevUsers, newUser]);
-      setFormData({ name: '', email: '', password: '' });
-    } catch (err) {
-      const error = err as AxiosError<ProblemDetails>;
-      const problem = error.response?.data;
-      setFormError(problem?.detail || problem?.title || 'Failed to create user');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  if (loading) return <p>Loading...</p>;
 
   return (
     <div style={{ padding: '1rem' }}>
       <h2>Users</h2>
 
-      <ul style={{ paddingLeft: '1rem' }}>
-        {users.map(u => (
-            <UserCard user={u}/>
-        ))}
-      </ul>
+      <form onSubmit={handleSubmit} style={{ marginBottom: '1.5rem', maxWidth: '360px' }}>
+        <div style={{ marginBottom: '0.75rem' }}>
+          <label style={{ display: 'block', marginBottom: '0.25rem' }}>Name</label>
+          <input
+            name="name" // Added name attributes to match the state keys
+            value={userForm.name}
+            onChange={handleChange}
+            placeholder="Enter name"
+            style={{ width: '100%', padding: '0.5rem' }}
+          />
+        </div>
 
-      <form onSubmit={handleCreateUser} style={{ marginTop: '1.5rem', display: 'grid', gap: '0.75rem', maxWidth: '320px' }}>
-        <h3>Add user</h3>
-        {formError && <p style={{ color: 'red', margin: 0 }}>{formError}</p>}
+        <div style={{ marginBottom: '0.75rem' }}>
+          <label style={{ display: 'block', marginBottom: '0.25rem' }}>Email</label>
+          <input
+            type="email"
+            name="email"
+            value={userForm.email}
+            onChange={handleChange}
+            placeholder="Enter email"
+            style={{ width: '100%', padding: '0.5rem' }}
+          />
+        </div>
 
-        <input
-          type="text"
-          name="name"
-          placeholder="Name"
-          value={formData.name}
-          onChange={handleInputChange}
-          required
-        />
+        <div style={{ marginBottom: '0.75rem' }}>
+          <label style={{ display: 'block', marginBottom: '0.25rem' }}>Password</label>
+          <input
+            type="password"
+            name="password"
+            value={userForm.password}
+            onChange={handleChange}
+            placeholder="Enter password"
+            style={{ width: '100%', padding: '0.5rem' }}
+          />
+        </div>
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          value={formData.email}
-          onChange={handleInputChange}
-          required
-        />
-
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          value={formData.password}
-          onChange={handleInputChange}
-          required
-        />
-
-        <button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Adding...' : 'Add'}
+        <button type="submit" disabled={createUserMutation.isPending} className="btn-primary">
+          {createUserMutation.isPending ? 'Saving...' : 'Create User'}
         </button>
       </form>
+
+      {createUserMutation.isError && (
+        <p style={{ color: 'red' }}>Failed to create user. Please try again.</p>
+      )}
+
+      <ul>
+        {users.map((u) => (
+          <li key={u.id} style={{ marginBottom: '1rem' }}>
+            <UserCard user={u} />
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
