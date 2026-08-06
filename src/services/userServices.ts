@@ -1,5 +1,5 @@
 import { apiClient } from "../lib/axios"
-import { type UserReq, type UserRes } from "../types/UserTypes"
+import { type LoginUser, type UserReq, type UserRes } from "../types/UserTypes"
 
 export const userServices = {
     getUsers: async (): Promise<UserRes[]> => {
@@ -7,12 +7,13 @@ export const userServices = {
         return response.data;
     },
     
-    createUser: async (userData: UserReq): Promise<UserRes> => {
-        const response = await apiClient.post<UserRes>('api/User/createUser', userData);
+    registerUser: async (userData: UserReq): Promise<UserRes> => {
+        const response = await apiClient.post<UserRes>('api/user/register', userData);
         return response.data;
     },
 
-    deleteUser: async (id: number): Promise<void> => {
-        await apiClient.delete(`api/User/deleteUser/${id}`);
+    loginUser: async (userData: LoginUser): Promise<UserRes> => {
+        const response = await apiClient.post<UserRes>('api/user/signin', userData);
+        return response.data;
     },
 }

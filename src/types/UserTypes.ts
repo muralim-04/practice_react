@@ -2,9 +2,14 @@ export interface UserRes {
     id: number
     name: string
     email: string
+    token?: string
 }
 export interface UserReq {
-    name: string
+    username: string
     password: string
     email: string
+}
+export interface LoginUser {
+    email: string
+    password: string
 }

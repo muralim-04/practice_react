@@ -3,7 +3,7 @@ import { useDefaultStore } from "../../stores/defaultStore";
 
 
 export default function HomePage () {
-    const {age, name, increment, decrement} = useDefaultStore((state) => state)
+    const {age, name, increment, decrement} = useDefaultStore()
     
     function handlePlus () {
         increment();

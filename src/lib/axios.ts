@@ -12,12 +12,33 @@ export const apiClient = axios.create({
 apiClient.interceptors.response.use(
   (response) => response,
   (error: AxiosError<ProblemDetails>) => {
-    if (error.response) {
+    let errorMessage = 'An unexpected error occurred.';
+
+    if (error.response?.data) {
       const problem = error.response.data;
-      console.log(problem.detail, problem.title);
-    } else {
-      console.error('Network Error / Server Unreachable');
+
+      // Case 1: Custom detail message (e.g., "Incorrect password")
+      if (problem.detail) {
+        errorMessage = problem.detail;
+      } 
+      // Case 2: ASP.NET Validation errors dictionary (e.g., Email validation failure)
+      else if (problem.errors) {
+        const firstErrorKey = Object.keys(problem.errors)[0];
+        if (firstErrorKey && problem.errors[firstErrorKey].length > 0) {
+          errorMessage = problem.errors[firstErrorKey][0]; // Grabs the first validation error string
+        }
+      } 
+      // Fallback to title if available
+      else if (problem.title) {
+        errorMessage = problem.title;
+      }
+    } else if (error.request) {
+      errorMessage = 'Network Error / Server Unreachable';
     }
+
+    // Rewrite the native Axios error message so TanStack Query's `error.message` receives it directly!
+    error.message = errorMessage;
+
     return Promise.reject(error);
   }
 );
