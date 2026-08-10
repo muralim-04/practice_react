@@ -32,16 +32,16 @@ export default function LogIn() {
         setUserForm(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (e: React.SubmitEvent<HTMLFormElement>) => {
         e.preventDefault();
         loginMutation.mutate(userForm);
     };
 
     return (
-        <div style={{ padding: '1rem' }}>
+        <div className="auth-container">
             <h2>Log In</h2>
 
-            <form onSubmit={handleSubmit} style={{ marginBottom: '1.5rem', maxWidth: '360px' }}>
+            <form onSubmit={handleSubmit} className="auth-form">
                 <div style={{ marginBottom: '0.75rem' }}>
                     <label style={{ display: 'block', marginBottom: '0.25rem' }}>Email</label>
                     <input

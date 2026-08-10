@@ -13,7 +13,7 @@ export const userServices = {
     },
 
     loginUser: async (userData: LoginUser): Promise<UserRes> => {
-        const response = await apiClient.post<UserRes>('api/user/signin', userData);
+        const response = await apiClient.post<UserRes>('api/user/login', userData);
         return response.data;
     },
 }
