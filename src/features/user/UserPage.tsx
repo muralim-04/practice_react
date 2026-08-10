@@ -1,5 +1,6 @@
-
+import { useUserStore } from "../../stores/userStore";
 
 export default function UserPage() {
-  return <>UserPage</>
+  const user = useUserStore((state) => state.user);
+  return <>{user?.email}</>
 }

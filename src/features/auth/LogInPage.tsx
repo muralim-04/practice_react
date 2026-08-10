@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { userServices } from '../../services/userServices';
-import { useDefaultStore } from '../../stores/userStore';
+import { useUserStore } from '../../stores/userStore';
+import { useNavigate } from "react-router-dom" 
+
 
 export default function LogIn() {
-    const setUser = useDefaultStore((state) => state.setUser);
+    const setUser = useUserStore((state) => state.setUser);
+    const navigate = useNavigate();
 
     const [userForm, setUserForm] = useState({
         email: '',
@@ -16,11 +19,8 @@ export default function LogIn() {
         onSuccess: (data) => {
             console.log('Logged in successfully!');
             
-            // 1. Save user to Zustand!
             setUser(data); 
-
-            // 2. Redirect user (e.g., using react-router useNavigate)
-            //navigate('/dashboard');
+            navigate('/');
         },
         onError: (error) => {
             console.error('Login failed:', error);

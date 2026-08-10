@@ -1,6 +1,6 @@
 export interface UserRes {
     id: number
-    name: string
+    userName: string
     email: string
     token?: string
 }
