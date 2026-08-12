@@ -1,6 +1,7 @@
 import axios, { AxiosError } from 'axios';
 import toast from 'react-hot-toast';
 import type { ProblemDetails } from '../types/ProblemDetails';
+import { useUserStore } from "../stores/userStore";
 
 export const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 'https://localhost:44321',
@@ -9,6 +10,22 @@ export const apiClient = axios.create({
     'Content-Type': 'application/json',
   },
 });
+
+apiClient.interceptors.request.use(
+  (config) => {
+    const user = useUserStore.getState().user;
+    const token = user?.token;
+
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 apiClient.interceptors.response.use(
   (response) => response,
