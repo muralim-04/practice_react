@@ -13,7 +13,10 @@ export const useUserStore = create<UserStore>()(
         (set) => ({
             user: null,
             setUser: (user) => set({ user }),
-            logout: () => set({ user: null }),
+            logout: () => {
+                set({ user: null });
+                window.location.href = '/login';
+            },
         }),
         {
             name: "user-storage",

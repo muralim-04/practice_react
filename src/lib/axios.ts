@@ -1,7 +1,8 @@
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError, type InternalAxiosRequestConfig } from 'axios';
 import toast from 'react-hot-toast';
 import type { ProblemDetails } from '../types/ProblemDetails';
 import { useUserStore } from "../stores/userStore";
+import type { UserRes } from '../types/UserTypes';
 
 export const apiClient = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 'https://localhost:44321',
@@ -9,6 +10,7 @@ export const apiClient = axios.create({
   headers: {
     'Content-Type': 'application/json',
   },
+  withCredentials: true,
 });
 
 apiClient.interceptors.request.use(
@@ -23,6 +25,29 @@ apiClient.interceptors.request.use(
     return config;
   },
   (error) => {
+    return Promise.reject(error);
+  }
+);
+
+apiClient.interceptors.response.use(
+  (response) => response,
+  async (error: AxiosError) => {
+    const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
+
+    if (error.response?.status === 401 && originalRequest && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      try {
+        const {data} = await apiClient.post<UserRes>('/api/auth/refresh');
+        useUserStore.setState({user: data}) 
+        originalRequest.headers.Authorization = `Bearer ${data.token}`;
+        return apiClient(originalRequest);
+      } catch (refreshError) {
+        useUserStore.getState().logout();
+        return Promise.reject(refreshError);
+      }
+    }
+
     return Promise.reject(error);
   }
 );
