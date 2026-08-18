@@ -14,7 +14,7 @@ export const router = createBrowserRouter([
       {
         path: '', 
         element: <HomePage />,
-        
+        errorElement: <h3>Error occurred while fetching the data</h3>
       },
       {
         path: 'user', 

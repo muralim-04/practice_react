@@ -255,3 +255,84 @@ button {
   font-size: 1rem;
   line-height: 1.6;
 }
+
+/* --- Twitter-Style Post Card --- */
+.post-card {
+  border-bottom: 1px solid #eff3f4;
+  padding: 16px;
+  background-color: #ffffff;
+  max-width: 100%; 
+  transition: background-color 0.2s;
+  cursor: pointer;
+  
+  border: 1px solid #eff3f4;
+  border-radius: 12px;
+}
+
+.post-card:hover {
+  background-color: #f7f9f9;
+}
+
+/* Header layout */
+.post-card-header {
+  display: flex;
+  align-items: baseline;
+  gap: 8px; /* Space between title and username */
+  margin-bottom: 4px;
+}
+
+.post-card-title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #0f1419;
+}
+
+.post-card-meta {
+  font-size: 0.9rem;
+  color: #536471; /* Classic Twitter gray */
+}
+
+/* Text body */
+.post-card-content {
+  margin: 0 0 12px 0;
+  font-size: 0.95rem;
+  color: #0f1419;
+  line-height: 1.5;
+  white-space: pre-wrap; /* Keeps line breaks from your text area */
+}
+
+/* Image Attachment */
+.post-card-image {
+  width: 100%;
+  max-height: 500px;
+  object-fit: cover;
+  border-radius: 16px; /* Heavy rounding like Twitter */
+  border: 1px solid #cfd9de; /* Light border around the image */
+  margin-top: 8px;
+  display: block;
+}
+
+
+/* --- Grid Layout --- */
+.feed-container {
+  max-width: 1200px; /* Limits how wide the whole grid can get */
+  margin: 0 auto;    /* Centers the grid on the screen */
+  padding: 20px;
+}
+
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 24px; /* Space between the cards */
+  margin-bottom: 32px;
+}
+
+/* --- Pagination Styles --- */
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  color: #ffffff; /* Makes the text readable on your dark background */
+}
