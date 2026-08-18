@@ -3,7 +3,11 @@ import type { PaginationResult,  PostRes } from "../types/PostTypes";
 
 export const postsServices = {
     createPost: async (post: FormData): Promise<PostRes> => {
-        const response = await apiClient.post<PostRes>('api/post/createPost', post);
+        const response = await apiClient.post<PostRes>('api/post/createPost', post, {
+        headers: {
+            'Content-Type': 'multipart/form-data' 
+        }
+    });
         return response.data;
     },
     

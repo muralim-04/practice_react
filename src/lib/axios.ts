@@ -86,6 +86,7 @@ apiClient.interceptors.response.use(
     }
 
     toast.error(errorTitle);
+    toast.error(errorDetail);
     error.message = errorDetail;
 
     return Promise.reject(error);

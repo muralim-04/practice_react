@@ -256,28 +256,51 @@ button {
   line-height: 1.6;
 }
 
-/* --- Twitter-Style Post Card --- */
+/* =========================================
+   TWITTER CLONE LAYOUT (DARK MODE)
+   ========================================= */
+
+.feed-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centers the whole feed */
+  padding: 0; 
+}
+
+.posts-feed {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 900px; /* The classic Twitter timeline width */
+  
+  /* Left and right borders of the timeline */
+  border-left: 1px solid #2f3336; 
+  border-right: 1px solid #2f3336; 
+  min-height: 100vh;
+}
+
+/* --- Tweet Card --- */
 .post-card {
-  border-bottom: 1px solid #eff3f4;
+  border: none; /* Strips any lingering full borders */
+  border-bottom: 2px solid #131111; /* Only bottom separator */
+  border-radius: 0; /* Ensures it stays flat */
   padding: 16px;
-  background-color: #ffffff;
-  max-width: 100%; 
+  background-color: transparent; /* Lets your app's dark background show through */
+  width: 100%;
+  box-sizing: border-box;
   transition: background-color 0.2s;
   cursor: pointer;
-  
-  border: 1px solid #eff3f4;
-  border-radius: 12px;
 }
 
 .post-card:hover {
-  background-color: #f7f9f9;
+  background-color: rgba(255, 255, 255, 0.03); /* Faint highlight on hover */
 }
 
-/* Header layout */
+/* --- Header (Title & Username) --- */
 .post-card-header {
   display: flex;
   align-items: baseline;
-  gap: 8px; /* Space between title and username */
+  gap: 8px;
   margin-bottom: 4px;
 }
 
@@ -285,54 +308,165 @@ button {
   margin: 0;
   font-size: 1rem;
   font-weight: bold;
-  color: #0f1419;
+  color: #e7e9ea; /* High contrast white for dark mode */
 }
 
 .post-card-meta {
   font-size: 0.9rem;
-  color: #536471; /* Classic Twitter gray */
+  color: #71767b; /* Subtle dark-mode grey */
 }
 
-/* Text body */
+/* --- Content --- */
 .post-card-content {
   margin: 0 0 12px 0;
   font-size: 0.95rem;
-  color: #0f1419;
+  color: #e7e9ea; /* High contrast white */
   line-height: 1.5;
-  white-space: pre-wrap; /* Keeps line breaks from your text area */
+  white-space: pre-wrap;
 }
 
-/* Image Attachment */
+/* --- Image Attachment --- */
 .post-card-image {
   width: 100%;
   max-height: 500px;
   object-fit: cover;
-  border-radius: 16px; /* Heavy rounding like Twitter */
-  border: 1px solid #cfd9de; /* Light border around the image */
+  border-radius: 16px; /* Keep the image itself rounded */
+  border: 1px solid #2f3336;
   margin-top: 8px;
   display: block;
 }
 
-
-/* --- Grid Layout --- */
-.feed-container {
-  max-width: 1200px; /* Limits how wide the whole grid can get */
-  margin: 0 auto;    /* Centers the grid on the screen */
-  padding: 20px;
-}
-
-.posts-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 24px; /* Space between the cards */
-  margin-bottom: 32px;
-}
-
-/* --- Pagination Styles --- */
+/* --- Pagination Controls --- */
 .pagination-controls {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 16px;
-  color: #ffffff; /* Makes the text readable on your dark background */
+  padding: 20px;
+  color: #e7e9ea;
+  width: 100%;
+  max-width: 600px;
+  border-left: 1px solid #2f3336;
+  border-right: 1px solid #2f3336;
+  border-bottom: 1px solid #2f3336;
+  box-sizing: border-box;
+}
+
+.pagination-controls button {
+  background-color: #eff3f4;
+  color: #0f1419;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 9999px; /* Pill shape */
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.pagination-controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* =========================================
+   CREATE POST COMPONENT (DARK MODE)
+   ========================================= */
+
+.create-post-container {
+  border-bottom: 1px solid #2f3336;
+  padding: 16px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.create-post-title,
+.create-post-textarea {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: #e7e9ea;
+  font-family: inherit;
+  outline: none;
+  resize: none; /* Prevents manual resizing of textarea */
+}
+
+.create-post-title {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.create-post-title::placeholder {
+  color: #71767b;
+}
+
+.create-post-textarea {
+  font-size: 1.25rem;
+  min-height: 60px;
+}
+
+.create-post-textarea::placeholder {
+  color: #71767b;
+}
+
+/* Action Row (Icons + Post Button) */
+.create-post-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid #2f3336; /* Subtle line separating text from buttons */
+}
+
+.action-icons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.image-upload-label {
+  color: #1d9bf0; /* Twitter Blue */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.image-upload-label:hover {
+  background-color: rgba(29, 155, 240, 0.1);
+}
+
+.file-name {
+  color: #71767b;
+  font-size: 0.85rem;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.btn-post {
+  background-color: #1d9bf0;
+  color: #ffffff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  font-weight: bold;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-post:hover {
+  background-color: #1a8cd8;
+}
+
+.btn-post:disabled {
+  background-color: #1d9bf0;
+  opacity: 0.5;
+  cursor: not-allowed;
 }

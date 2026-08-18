@@ -3,13 +3,14 @@ import { postsServices } from "../../services/postsService";
 import type { PaginationResult, PostRes } from "../../types/PostTypes";
 import { useSearchParams } from "react-router-dom";
 import PostCard from "../../components/PostCard";
+import CreatePost from "../../components/CreatePost";
 
 
 export default function HomePage () {
    const [searchParams, setSearchParams] = useSearchParams();
 
   const pageNumber = Number(searchParams.get('pageNumber')) || 1;
-  const pageSize = 6;
+  const pageSize = 5;
 
   const { data: posts } = useSuspenseQuery<PaginationResult<PostRes>>({
     queryKey: ['posts', pageNumber, pageSize],
@@ -23,14 +24,13 @@ export default function HomePage () {
 
     return (
         <div className="feed-container">
-            {/* The new Grid Container */}
-            <div className="posts-grid">
+            <div className="posts-feed">
+            <CreatePost />
             {posts.items.map((post) => (
                 <PostCard key={post.id} post={post} />
             ))}
             </div>
 
-            {/* Pagination Controls */}
             <div className="pagination-controls">
             <button 
                 onClick={() => setPage(pageNumber - 1)} 
@@ -49,5 +49,5 @@ export default function HomePage () {
             </button>
             </div>
         </div>
-    )
+    );
 }
