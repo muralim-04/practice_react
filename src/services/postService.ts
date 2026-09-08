@@ -1,7 +1,7 @@
 import { apiClient } from "../lib/axios"
-import type { PaginationResult,  PostRes } from "../types/PostTypes";
+import type { LikePostRes, PaginationResult,  PostRes } from "../types/PostTypes";
 
-export const postsServices = {
+export const postServices = {
     createPost: async (post: FormData): Promise<PostRes> => {
         const response = await apiClient.post<PostRes>('api/post/createPost', post, {
         headers: {
@@ -16,10 +16,18 @@ export const postsServices = {
         return response.data;
     },
 
+    likePost: async (postId: number): Promise<LikePostRes> => {
+        const response = await apiClient.post<LikePostRes>(`api/post/likeThePost/${postId}`);
+        return response.data;
+    },
+
+    
+
     deletePost: async (postId: number): Promise<boolean> => {
         const response = await apiClient.delete<boolean>(`api/post/deletePost/${postId}`);
         return response.data;
     },
+
     deletePostAdmin: async (postId: number): Promise<boolean> => {
         const response = await apiClient.delete<boolean>(`api/post/deletePostAdmin/${postId}`);
         return response.data;

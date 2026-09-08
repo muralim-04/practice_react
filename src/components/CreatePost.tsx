@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { PostReq } from "../types/PostTypes";
-import { postsServices } from "../services/postsService";
+import { postServices } from "../services/postService";
 
 export default function CreatePost() {
     const queryClient = useQueryClient();
@@ -12,7 +12,7 @@ export default function CreatePost() {
     });
 
     const createPostMutation = useMutation({
-        mutationFn: (formData: FormData) => postsServices.createPost(formData),
+        mutationFn: (formData: FormData) => postServices.createPost(formData),
         onSuccess: () => {
             setPostForm({ content: '', image: null });
             

@@ -16,4 +16,9 @@ export const userServices = {
         const response = await apiClient.post<UserRes>('api/auth/login', userData);
         return response.data;
     },
+
+    logOutUser: async (): Promise<boolean> => {
+        const response = await apiClient.post<boolean>('api/auth/logout');
+        return response.data;
+    },
 }

@@ -1,5 +1,5 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
-import { postsServices } from "../../services/postsService";
+import { postServices } from "../../services/postService";
 import type { PaginationResult, PostRes } from "../../types/PostTypes";
 import { useSearchParams } from "react-router-dom";
 import PostCard from "../../components/PostCard";
@@ -14,7 +14,7 @@ export default function HomePage () {
 
   const { data: posts } = useSuspenseQuery<PaginationResult<PostRes>>({
     queryKey: ['posts', pageNumber, pageSize],
-    queryFn: () => postsServices.getAllPosts(pageNumber, pageSize),
+    queryFn: () => postServices.getAllPosts(pageNumber, pageSize),
   });
 
   const setPage = (newPage: number) => {

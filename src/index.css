@@ -486,3 +486,84 @@ button {
 .btn-delete:hover {
   background-color: #ff4000;
 }
+
+/* --- Header Adjustment (Pushes delete button to the right) --- */
+.post-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+/* --- Post Actions Footer --- */
+.post-card-footer {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  margin-top: 12px;
+  padding-top: 8px;
+}
+
+.post-action-btn {
+  background: transparent;
+  border: none;
+  color: #71767b;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  border-radius: 9999px;
+  font-size: 0.85rem;
+  transition: color 0.15s ease, background-color 0.15s ease;
+}
+
+.post-action-btn .action-icon {
+  width: 25px;
+  height: 25px;
+}
+
+/* Hover & Active States */
+.post-action-btn:hover {
+  color: #1d9bf0;
+  background-color: rgba(29, 155, 240, 0.1);
+}
+
+.post-action-btn.liked {
+  color: #f91880;
+}
+
+.post-action-btn.liked:hover {
+  background-color: rgba(249, 24, 128, 0.1);
+}
+
+/* Container bundling avatar + username */
+.post-author-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* User avatar */
+.post-avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #2f3336;
+}
+
+/* Fallback avatar circle with the first letter */
+.post-avatar-placeholder {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background-color: #2e303a;
+  color: #e7e9ea;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+  border: 1px solid #2f3336;
+  flex-shrink: 0;
+}
