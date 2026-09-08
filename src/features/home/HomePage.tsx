@@ -25,10 +25,10 @@ export default function HomePage () {
     return (
         <div className="feed-container">
             <div className="posts-feed">
-            <CreatePost />
-            {posts.items.map((post) => (
-                <PostCard key={post.id} post={post} />
-            ))}
+                <CreatePost />
+                {posts.items.map((post) => (
+                    <PostCard key={post.id} post={post} />
+                ))}
             </div>
 
             <div className="pagination-controls">

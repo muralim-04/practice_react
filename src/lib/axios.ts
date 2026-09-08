@@ -25,6 +25,7 @@ apiClient.interceptors.request.use(
     return config;
   },
   (error) => {
+    console.error(error)
     return Promise.reject(error);
   }
 );
@@ -47,7 +48,7 @@ apiClient.interceptors.response.use(
         return Promise.reject(refreshError);
       }
     }
-
+    console.error(error)
     return Promise.reject(error);
   }
 );
@@ -86,7 +87,6 @@ apiClient.interceptors.response.use(
     }
 
     toast.error(errorTitle);
-    toast.error(errorDetail);
     error.message = errorDetail;
 
     return Promise.reject(error);

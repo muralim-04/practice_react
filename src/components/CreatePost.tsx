@@ -7,7 +7,6 @@ export default function CreatePost() {
     const queryClient = useQueryClient();
     
     const [postForm, setPostForm] = useState<PostReq>({
-        title: '',
         content: '',
         image: null
     });
@@ -15,7 +14,7 @@ export default function CreatePost() {
     const createPostMutation = useMutation({
         mutationFn: (formData: FormData) => postsServices.createPost(formData),
         onSuccess: () => {
-            setPostForm({ title: '', content: '', image: null });
+            setPostForm({ content: '', image: null });
             
             queryClient.invalidateQueries({ queryKey: ['posts'] });
         },
@@ -37,11 +36,10 @@ export default function CreatePost() {
 
     const handleSubmit = (e: React.SubmitEvent) => {
         e.preventDefault();
-        if (!postForm.title || !postForm.content) return; 
+        if (!postForm.content) return; 
 
         const formData = new FormData();
 
-        formData.append('Title', postForm.title);
         formData.append('Content', postForm.content);
 
         if (postForm.image) {
@@ -54,15 +52,6 @@ export default function CreatePost() {
     return (
         <div className="create-post-container">
             <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    name="title"
-                    value={postForm.title}
-                    onChange={handleTextChange}
-                    placeholder="Post Title"
-                    className="create-post-title"
-                    autoComplete="off"
-                />
 
                 <textarea
                     name="content"
@@ -93,12 +82,17 @@ export default function CreatePost() {
                     <button 
                         type="submit" 
                         className="btn-post"
-                        disabled={createPostMutation.isPending || !postForm.title || !postForm.content}
+                        disabled={createPostMutation.isPending || !postForm.content}
                     >
                         {createPostMutation.isPending ? 'Posting...' : 'Post'}
                     </button>
                 </div>
             </form>
+            {createPostMutation.isError && (
+                <p style={{ color: 'red' }}>
+                    {createPostMutation.error?.message || 'Login failed. Please try again.'}
+                </p>
+            )}
         </div>
     );
 }

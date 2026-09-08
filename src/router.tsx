@@ -14,12 +14,12 @@ export const router = createBrowserRouter([
       {
         path: '', 
         element: <HomePage />,
-        errorElement: <h3>Error occurred while fetching the data</h3>
+        errorElement: <h2 style={{color: "red"}}>Something went wrong</h2>,
       },
       {
         path: 'user', 
         element: <UserPage />,
-        errorElement: <h3>Error occurred while fetching the data</h3>,
+        errorElement: <h2 style={{color: "red"}}>Something went wrong</h2>,
       },
       {
         path: 'register', 

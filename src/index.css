@@ -373,12 +373,11 @@ button {
 
 .create-post-container {
   border-bottom: 1px solid #2f3336;
-  padding: 16px;
+  padding: 12px;
   width: 100%;
   box-sizing: border-box;
 }
 
-.create-post-title,
 .create-post-textarea {
   width: 100%;
   background: transparent;
@@ -448,7 +447,12 @@ button {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-
+.btn-logout {
+  color: #111010;
+  background-color: #ff4e13;
+  border: none;
+  border-radius: 9999px;
+}
 .btn-post {
   background-color: #1d9bf0;
   color: #ffffff;
@@ -469,4 +473,16 @@ button {
   background-color: #1d9bf0;
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.btn-delete {
+  color: #111010;
+  background-color: #fa5822;
+  border: none;
+  border-radius: 9999px;
+  cursor: pointer;
+} 
+
+.btn-delete:hover {
+  background-color: #ff4000;
 }
