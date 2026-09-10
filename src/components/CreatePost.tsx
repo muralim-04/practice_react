@@ -50,7 +50,7 @@ export default function CreatePost() {
     };
 
     return (
-        <div className="create-post-container">
+        <div className="w-full border-b border-[#2f3336] p-3">
             <form onSubmit={handleSubmit}>
 
                 <textarea
@@ -58,13 +58,13 @@ export default function CreatePost() {
                     value={postForm.content}
                     onChange={handleTextChange}
                     placeholder="What's happening?"
-                    className="create-post-textarea"
+                    className="min-h-16 w-full resize-none border-0 bg-transparent text-xl text-[#e7e9ea] outline-none placeholder:text-[#71767b]"
                     rows={3}
                 />
 
-                <div className="create-post-actions">
-                    <div className="action-icons">
-                        <label className="image-upload-label" title="Attach Image">
+                <div className="mt-3 flex items-center justify-between border-t border-[#2f3336] pt-3">
+                    <div className="flex items-center gap-3">
+                        <label className="flex h-[34px] w-[34px] cursor-pointer items-center justify-center rounded-full text-[#1d9bf0] transition-colors hover:bg-[#1d9bf0]/10" title="Attach Image">
                             <input
                                 type="file"
                                 accept="image/*"
@@ -76,12 +76,12 @@ export default function CreatePost() {
                             </svg>
                         </label>
                         
-                        {postForm.image && <span className="file-name">{postForm.image.name}</span>}
+                        {postForm.image && <span className="max-w-[150px] truncate text-sm text-[#71767b]">{postForm.image.name}</span>}
                     </div>
 
                     <button 
                         type="submit" 
-                        className="btn-post"
+                        className="rounded-full border-0 bg-[#1d9bf0] px-4 py-2 text-[0.95rem] font-bold text-white transition-colors hover:bg-[#1a8cd8] disabled:cursor-not-allowed disabled:opacity-50"
                         disabled={createPostMutation.isPending || !postForm.content}
                     >
                         {createPostMutation.isPending ? 'Posting...' : 'Post'}
@@ -89,7 +89,7 @@ export default function CreatePost() {
                 </div>
             </form>
             {createPostMutation.isError && (
-                <p style={{ color: 'red' }}>
+                <p className="mt-3 text-red-400">
                     {createPostMutation.error?.message || 'Login failed. Please try again.'}
                 </p>
             )}

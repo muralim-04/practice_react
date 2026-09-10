@@ -20,24 +20,24 @@ export default function Navbar () {
   };
 
   return (
-    <nav className="navbar">
-      <div className="navbar-brand">My App</div>
+    <nav className="flex items-center justify-between bg-[#1e293b] px-8 py-4 text-white shadow-md">
+      <div className="text-2xl font-bold">My App</div>
 
-      <div className="navbar-links">
-        <Link to="/">Home</Link>
+      <div className="flex items-center gap-5">
+        <Link to="/" className="font-medium text-[#cbd5e1] transition-colors hover:text-white">Home</Link>
         {user ? (
           <>
-            <Link to="/user" className="navbar-user">
+            <Link to="/user" className="font-medium text-[#cbd5e1] transition-colors hover:text-white">
               {user.userName}
             </Link>
-            <button onClick={handleLogOut} className="btn-logout">
+            <button onClick={handleLogOut} className="rounded-full border-0 bg-[#ff4e13] px-3 py-1 text-[#111010]">
               Log Out
             </button>
           </>
         ) : (
           <>
-            <Link to="/login">Log In</Link>
-            <Link to="/register" className="btn-register">
+            <Link to="/login" className="font-medium text-[#cbd5e1] transition-colors hover:text-white">Log In</Link>
+            <Link to="/register" className="font-medium text-[#cbd5e1] transition-colors hover:text-white">
               Register
             </Link>
           </>

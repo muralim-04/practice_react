@@ -7,7 +7,7 @@ export default function RootLayout() {
     <div >
       <Navbar />
 
-        <main style={{ padding: '24px' }}>
+        <main className="p-6">
           <Suspense fallback={<p>Loading...</p>}>
             <Outlet />
           </Suspense>

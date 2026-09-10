@@ -23,18 +23,19 @@ export default function HomePage () {
   };
 
     return (
-        <div className="feed-container">
-            <div className="posts-feed">
+        <div className="mx-auto flex w-full max-w-3xl flex-col items-center">
+            <div className="min-h-screen w-full border-x border-[#2f3336]">
                 <CreatePost />
                 {posts.items.map((post) => (
                     <PostCard key={post.id} post={post} />
                 ))}
             </div>
 
-            <div className="pagination-controls">
+            <div className="flex w-full max-w-3xl items-center justify-center gap-4 border-x border-b border-[#2f3336] p-5 text-[#e7e9ea]">
             <button 
                 onClick={() => setPage(pageNumber - 1)} 
                 disabled={!posts.hasPreviousPage}
+                className="rounded-full border-0 bg-[#eff3f4] px-4 py-2 font-bold text-[#0f1419] disabled:cursor-not-allowed disabled:opacity-50"
             >
                 Previous
             </button>
@@ -44,6 +45,7 @@ export default function HomePage () {
             <button 
                 onClick={() => setPage(pageNumber + 1)} 
                 disabled={!posts.hasNextPage}
+                className="rounded-full border-0 bg-[#eff3f4] px-4 py-2 font-bold text-[#0f1419] disabled:cursor-not-allowed disabled:opacity-50"
             >
                 Next
             </button>
