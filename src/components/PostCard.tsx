@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { postServices } from "../services/postService";
 import { useUserStore } from "../stores/userStore";
 import type { PaginationResult, PostRes } from "../types/PostTypes";
@@ -59,72 +60,120 @@ export default function PostCard({ post }: PostCardProps) {
   }
 
   return (
-    <div className="w-full cursor-pointer border-b-2 border-[#131111] p-4 transition-colors hover:bg-white/[0.03]">
-      <div className="mb-2 flex items-center justify-between">
-        <div className="flex items-center gap-2.5">
+    <article className="w-full border-b border-slate-800 bg-slate-900/40 p-5 transition-colors hover:bg-slate-900/70 cursor-pointer">
+      <div className="mb-3 flex items-center justify-between ">
+        <Link
+          to="/user"
+          onClick={(e) => e.stopPropagation()}
+          className="group flex items-center gap-3"
+        >
           {fullAvatarUrl ? (
             <img
               src={fullAvatarUrl}
               alt={post.username}
-              className="h-11 w-11 shrink-0 rounded-full border border-[#2f3336] object-cover"
+              className="h-10 w-10 shrink-0 rounded-full border border-slate-700 object-cover ring-2 ring-transparent transition group-hover:border-indigo-500 group-hover:ring-indigo-500/20"
               onError={(e) => {
-                e.currentTarget.style.display = "none";
+                e.currentTarget.style.display = 'none';
               }}
             />
           ) : (
-            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[#2f3336] bg-[#2e303a] text-sm font-semibold text-[#e7e9ea]">
-              {post.username?.charAt(0).toUpperCase()}
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-slate-700 bg-slate-800 text-sm font-semibold uppercase text-indigo-400 ring-2 ring-transparent transition group-hover:border-indigo-500 group-hover:ring-indigo-500/20">
+              {post.username?.charAt(0) || '?'}
             </div>
           )}
 
-          <span className="text-[0.9rem] text-[#71767b]">
-            @{post.username} · {formattedDate}
-          </span>
-        </div>
+          <div className="flex flex-col sm:flex-row sm:items-baseline sm:gap-2">
+            <span className="text-sm font-semibold text-slate-100 transition group-hover:text-indigo-400">
+              {post.username}
+            </span>
+            <span className="text-xs text-slate-500">
+              @{post.username} · {formattedDate}
+            </span>
+          </div>
+        </Link>
 
         {(user?.id === post.userId || user?.isAdmin) && (
           <button
-            onClick={handleDelete}
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDelete();
+            }}
             disabled={deletePostMutation.isPending}
-            className="rounded-full border-0 bg-[#fa5822] px-3 py-1 text-sm text-[#111010] transition-colors hover:bg-[#ff4000] disabled:cursor-not-allowed disabled:opacity-50"
+            className="rounded-lg border border-red-500/20 bg-red-950/30 px-3 py-1 text-xs font-medium text-red-400 transition hover:border-red-500/50 hover:bg-red-900/40 hover:text-red-300 disabled:cursor-not-allowed disabled:opacity-50 cursor-pointer"
           >
-            {deletePostMutation.isPending ? "deleting..." : "delete"}
+            {deletePostMutation.isPending ? 'Deleting...' : 'Delete'}
           </button>
         )}
       </div>
 
-      <p className="mb-3 whitespace-pre-wrap text-[0.95rem] leading-6 text-[#e7e9ea]">{post.content}</p>
+      <p className="mb-3 cursor-text whitespace-pre-wrap text-sm leading-relaxed text-slate-200">
+        {post.content}
+      </p>
 
       {fullPostImageUrl && (
-        <img
-          src={fullPostImageUrl}
-          alt={post.content}
-          onError={(e) => {
-            e.currentTarget.style.display = "none";
-          }}
-          className="mt-2 block max-h-[500px] w-full rounded-2xl border border-[#2f3336] object-cover"
-        />
+        <div className="mt-3 overflow-hidden rounded-2xl border border-slate-800 bg-slate-950/50">
+          <img
+            src={fullPostImageUrl}
+            alt="Post attachment"
+            onError={(e) => {
+              e.currentTarget.style.display = 'none';
+            }}
+            className="max-h-[500px] w-full object-cover transition hover:scale-[1.01]"
+          />
+        </div>
       )}
 
-      <div className="mt-3 flex items-center gap-8 pt-2">
+      <div className="mt-4 flex items-center gap-6 border-t border-slate-800/60 pt-3">
         <button
-          onClick={handleLike}
           type="button"
-          className={`flex items-center gap-1.5 rounded-full border-0 bg-transparent px-2 py-1.5 text-[0.85rem] text-[#71767b] transition-colors hover:bg-[#1d9bf0]/10 hover:text-[#1d9bf0] ${post.isLikedByCurrentUser ? "text-[#f91880] hover:bg-[#f91880]/10" : ""}`}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleLike();
+          }}
+          className={`group flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs font-medium cursor-pointer transition ${
+            post.isLikedByCurrentUser
+              ? 'text-rose-500 hover:bg-rose-500/10'
+              : 'text-slate-400 hover:bg-slate-800 hover:text-rose-400'
+          }`}
         >
-          <svg className="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+          <svg
+            className="h-4 w-4 transition group-hover:scale-110"
+            viewBox="0 0 24 24"
+            fill={post.isLikedByCurrentUser ? 'currentColor' : 'none'}
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z"
+            />
           </svg>
           <span>{post.likeCount}</span>
         </button>
 
-        <button type="button" className="flex items-center gap-1.5 rounded-full border-0 bg-transparent px-2 py-1.5 text-[0.85rem] text-[#71767b] transition-colors hover:bg-[#1d9bf0]/10 hover:text-[#1d9bf0]">
-          <svg className="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12z" />
+        <button
+          type="button"
+          onClick={(e) => e.stopPropagation()}
+          className="group flex items-center gap-2 rounded-lg px-2.5 py-1.5 text-xs font-medium cursor-pointer text-slate-400 transition hover:bg-slate-800 hover:text-indigo-400"
+        >
+          <svg
+            className="h-4 w-4 transition group-hover:scale-110"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a.75.75 0 0 1-.785-.175.75.75 0 0 1-.168-.804l.794-2.383C3.65 16.147 3 14.167 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z"
+            />
           </svg>
           <span>{post.commentCount}</span>
         </button>
       </div>
-    </div>
+    </article>
   );
 }
