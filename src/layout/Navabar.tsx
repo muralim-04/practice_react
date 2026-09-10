@@ -20,29 +20,62 @@ export default function Navbar () {
   };
 
   return (
-    <nav className="flex items-center justify-between bg-[#1e293b] px-8 py-4 text-white shadow-md">
-      <div className="text-2xl font-bold">My App</div>
+    <nav className="sticky top-0 z-50 flex items-center justify-between border-b border-slate-800 bg-slate-900/80 px-6 py-3.5 backdrop-blur-md">
+      <Link
+        to="/"
+        className="group flex items-center gap-2 text-xl font-bold tracking-tight text-white transition hover:opacity-90"
+      >
+        <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-orange-500 text-base font-black text-white shadow-md shadow-orange-500/25 transition group-hover:bg-orange-600">
+          🔥
+        </span>
+        <span>HotTake</span>
+      </Link>
 
-      <div className="flex items-center gap-5">
-        <Link to="/" className="font-medium text-[#cbd5e1] transition-colors hover:text-white">Home</Link>
+      <div className="flex items-center gap-4">
         {user ? (
           <>
-            <Link to="/user" className="font-medium text-[#cbd5e1] transition-colors hover:text-white">
-              {user.userName}
+            <Link
+              to="/user"
+              className="flex items-center gap-2.5 rounded-full p-1 pr-3 text-sm font-medium text-slate-200 transition hover:bg-slate-800 hover:text-white"
+            >
+              {user.avatarUrl ? (
+                <img
+                  src={user.avatarUrl}
+                  alt={user.userName}
+                  className="h-8 w-8 rounded-full border border-slate-700 object-cover"
+                />
+              ) : (
+                <div className="flex h-8 w-8 items-center justify-center rounded-full border border-slate-700 bg-slate-800 text-xs font-semibold uppercase text-indigo-400">
+                  {user.userName ? user.userName.charAt(0) : '?'}
+                </div>
+              )}
+              <span className="max-w-[120px] truncate">{user.userName}</span>
             </Link>
-            <button onClick={handleLogOut} className="rounded-full border-0 bg-[#ff4e13] px-3 py-1 text-[#111010]">
+
+            <button
+              onClick={handleLogOut}
+              className="rounded-lg border border-slate-700 bg-slate-800/60 px-3.5 py-1.5 text-xs font-medium text-slate-300 transition hover:border-red-500/40 hover:bg-red-950/30 hover:text-red-400"
+            >
               Log Out
             </button>
           </>
         ) : (
           <>
-            <Link to="/login" className="font-medium text-[#cbd5e1] transition-colors hover:text-white">Log In</Link>
-            <Link to="/register" className="font-medium text-[#cbd5e1] transition-colors hover:text-white">
+            <Link
+              to="/login"
+              className="px-3 py-1.5 text-sm font-medium text-slate-300 transition hover:text-white"
+            >
+              Log In
+            </Link>
+            <Link
+              to="/register"
+              className="rounded-lg bg-indigo-600 px-3.5 py-1.5 text-sm font-medium text-white shadow-sm shadow-indigo-600/20 transition hover:bg-indigo-500"
+            >
               Register
             </Link>
           </>
         )}
       </div>
     </nav>
-  )
+  );
 }

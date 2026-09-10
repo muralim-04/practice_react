@@ -1,6 +1,7 @@
 export interface UserRes {
     id: number
     userName: string
+    avatarUrl?: string
     isAdmin?: boolean
     email: string
     token?: string
