@@ -86,8 +86,8 @@ export default function PostCard({ post }: PostCardProps) {
             <span className="text-sm font-semibold text-slate-100 transition group-hover:text-indigo-400">
               {post.username}
             </span>
-            <span className="text-xs text-slate-500">
-              @{post.username} · {formattedDate}
+            <span className="text-sm text-slate-500">
+              {formattedDate}
             </span>
           </div>
         </Link>
