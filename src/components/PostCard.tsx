@@ -112,14 +112,15 @@ export default function PostCard({ post }: PostCardProps) {
       </p>
 
       {fullPostImageUrl && (
-        <div className="mt-3 overflow-hidden rounded-2xl border border-slate-800 bg-slate-950/50">
+        <div className="mt-3 flex justify-center overflow-hidden rounded-2xl border border-slate-800 bg-black/40">
           <img
             src={fullPostImageUrl}
             alt="Post attachment"
+            loading="lazy"
             onError={(e) => {
               e.currentTarget.style.display = 'none';
             }}
-            className="max-h-[500px] w-full object-cover transition hover:scale-[1.01]"
+            className="max-h-[650px] w-auto max-w-full rounded-2xl object-contain"
           />
         </div>
       )}

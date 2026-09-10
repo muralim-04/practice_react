@@ -23,32 +23,60 @@ export default function HomePage () {
   };
 
     return (
-        <div className="mx-auto flex w-full max-w-3xl flex-col items-center">
-            <div className="min-h-screen w-full border-x border-[#2f3336]">
+        <div className="min-h-[calc(100vh-4rem)] w-full bg-slate-950 px-4 py-6 sm:px-6 lg:px-8">
+            <div className="mx-auto w-full max-w-4xl">
+            <main className="overflow-hidden rounded-2xl border border-slate-800 bg-slate-900/60 shadow-xl shadow-slate-950/50 backdrop-blur-sm">
                 <CreatePost />
+
+                <div className="divide-y divide-slate-800/80">
                 {posts.items.map((post) => (
                     <PostCard key={post.id} post={post} />
                 ))}
-            </div>
+                </div>
+            </main>
 
-            <div className="flex w-full max-w-3xl items-center justify-center gap-4 border-x border-b border-[#2f3336] p-5 text-[#e7e9ea]">
-            <button 
-                onClick={() => setPage(pageNumber - 1)} 
+            <footer className="mt-6 flex items-center justify-between rounded-xl border border-slate-800 bg-slate-900/50 px-5 py-3 text-sm text-slate-400">
+                <button
+                type="button"
+                onClick={() => setPage(pageNumber - 1)}
                 disabled={!posts.hasPreviousPage}
-                className="rounded-full border-0 bg-[#eff3f4] px-4 py-2 font-bold text-[#0f1419] disabled:cursor-not-allowed disabled:opacity-50"
-            >
+                className="inline-flex items-center gap-1.5 rounded-lg border border-slate-700 bg-slate-800/80 px-3.5 py-1.5 font-medium text-slate-200 transition hover:border-slate-600 hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                <svg
+                    className="h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                </svg>
                 Previous
-            </button>
+                </button>
 
-            <span>Page {posts.pageNumber} of {posts.totalPages}</span>
+                <span className="font-medium text-slate-300">
+                Page <span className="font-semibold text-white">{posts.pageNumber}</span> of{' '}
+                <span className="font-semibold text-white">{posts.totalPages}</span>
+                </span>
 
-            <button 
-                onClick={() => setPage(pageNumber + 1)} 
+                <button
+                type="button"
+                onClick={() => setPage(pageNumber + 1)}
                 disabled={!posts.hasNextPage}
-                className="rounded-full border-0 bg-[#eff3f4] px-4 py-2 font-bold text-[#0f1419] disabled:cursor-not-allowed disabled:opacity-50"
-            >
+                className="inline-flex items-center gap-1.5 rounded-lg border border-slate-700 bg-slate-800/80 px-3.5 py-1.5 font-medium text-slate-200 transition hover:border-slate-600 hover:bg-slate-700 disabled:cursor-not-allowed disabled:opacity-40"
+                >
                 Next
-            </button>
+                <svg
+                    className="h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+                </button>
+            </footer>
             </div>
         </div>
     );
