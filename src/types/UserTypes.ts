@@ -22,3 +22,12 @@ export interface UserProfile {
     avatarUrl: string
     email: string
 }
+
+export interface UserDetails {
+    userName: string
+    bio: string
+}
+
+export interface UserAvatar {
+    image: File | null
+}
